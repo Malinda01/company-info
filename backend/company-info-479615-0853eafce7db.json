@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "company-info-479615",
+  "private_key_id": "0853eafce7db98e6d95691767ded85e954d056a3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC9RIpBE3b8+N9x\nWn/mxwESwlRDWPeU9PU3hQPJ1I6hShNyRsJpog9j6w2T7Dvycy3GWXmDxSrIri6o\n1CpHS/Fsq6ipu1Ye1fMtF96rlqgphiDgReQFirriCLoGPctpr/IzfJ2vHS+lQdvS\nbPGejfs9siZeAyXAB4UsOb2ZI1mjj1fdpBHs99sMjgNaalOG1Q0pmV4wP6YL60Zo\nDKUC0YNUu3C9sFbhfLWqZ5RokFXOe+HsQ1DPxrXVLtEzbXPVDFKefinsfa1zartY\nOltPhzKeimBLgFGdfTtjVrKw8yjhrZHdBa934udmwaNFWz5XKUALvajAFxuLhDHj\nNYS9v23nAgMBAAECggEAT8Z9fbt+GleuGsG6CmRUA/ur960ewgbT+yBSPfadXcdy\n1eaUWGDqGsP+95wJkoJQx3t8N/nZtDeSzC+NWHreml7qWwxu2tV0R8v5W5rHa6Uw\n40ciOuHELrTd7/aI8BWswV3juuVS6VWOma241AtlXBZkjJjIBx5EWCVIUK1xQXpW\nX3fc9nmmf1dybGxviG+D5mybvbFSLVgeejrdpSTBY6IoE/B+L/cYsFTUCenNlqEy\nRSeOjiKIhKaE418Oi+sAsFE05+UaYBNKTFc7JLU0y4c+bOZJbmuVKZ57Y2OXdZZM\ni0cO8wMgyYvTKmBfzWkIDHKpX1DeWFvzi7mTqwZjzQKBgQDrxcPtc95U1tI2+f1D\np0ycjvnRFJGtq8njT0L8mM1l1rThCyyWyzYvumW6jRtcv7iDEGqawiScBHZ926M6\nc80bhBbaWXRYck76yQMJbu23koLM9S6cYe8wjBSWOOtjsRGQnV7SWzUxEDR6uDlt\ntYRtTNLY0IKpTYGVC51NK5jbewKBgQDNgWW+NA+FMMfX9lL0uH5Iw4Gxy5W6S7rf\nOgul5w3AyUIvr3g5ncu0YKOoWlIgjmbC+gXki9+21kaI2FW8x2k809Ut5TrFgVFV\nT3cCu9Pdnkd5pXwNdjCk3Uawc/sMJQXNFgHqHkbHwmL8HKXVRGQ19qi8ocXHt/jW\nG98ebWQFhQKBgGuoGQfC4aFxmflaewe6S6QtMOsEbmSTzZLKrXazuw4mVN9xf8G3\nNp3iifL93aGjNXg7NcJGpfrLmuNrOARHvj8zOFApipOcVm3y/T0AdvFcp/c4eTkV\nCufq/rd9dBZIUxHqmdKJrScjFCN5HVf4C2jxLFGuHAt8hY/uBrynDJwjAoGBAKDM\nrx+0/K/rC3Qgeaii861bzQ+hjPbIauBgOt0Ffe1rjS5izl/G6K2rMGN6yOhQhHfr\nytCZ4eLepzJMlEmyftXpqtTOmL4SAeIO28B317+BKcw1gGvIHyfhPH61QaqvDWr7\n3WOjbR7BK1K518iYSxEuf7mZm3g6q6pdBKh6T9lBAoGBAL/sTlgKcwskcrjbeVCP\nJVinuXwrIeT6CfHkd9+fIaixlXzaLcM8zdw/txO6u22oebj5Bkrq15vhv4/2cc25\nfI8DJXjE+KmYbsp4fIdYAeUNJPwb3e6Ifvp+KocRFb7KXa/4uxRPKJih61eh6qCt\n/BSUBXo8EZRtzmw8DphpCIG2\n-----END PRIVATE KEY-----\n",
+  "client_email": "malinda-company-info@company-info-479615.iam.gserviceaccount.com",
+  "client_id": "116905985018433748968",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/malinda-company-info%40company-info-479615.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
