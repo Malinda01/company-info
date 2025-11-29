@@ -9,8 +9,10 @@ from googleapiclient.discovery import build
 app = Flask(__name__)
 CORS(app)
 
-# Load Google Sheets Client
-SHEET_ID = "YOUR_SHEET_ID"
+# ================================
+# GOOGLE SHEETS CONFIG
+# ================================
+SHEET_ID = "1_gL95CGnA_-TSOz-PkQ2_Rv1BqsNSM2UoJlQN1sTY9o"
 SERVICE_ACCOUNT_FILE = "credentials.json"
 
 creds = Credentials.from_service_account_file(
@@ -19,44 +21,80 @@ creds = Credentials.from_service_account_file(
 service = build("sheets", "v4", credentials=creds)
 sheet = service.spreadsheets()
 
-# Serper API
+# ================================
+# SERPER CONFIG
+# ================================
 SERPER_API_KEY = "2212d5a6551ac32648c69738efe8f5b368266c8b"
 SERPER_URL = "https://google.serper.dev/search"
 
 
-def search_company(company_name):
-    """Search and extract company info using Serper"""
-    payload = {"q": company_name}
+def search_company(company):
+    """Search company info using Serper with fallback for missing data"""
+    payload = {"q": company + " company profile", "num": 10}
     headers = {"X-API-KEY": SERPER_API_KEY}
 
-    res = requests.post(SERPER_URL, json=payload, headers=headers)
-    data = res.json()
-
     info = {
-        "company": company_name,
+        "company": company,
         "founded": "",
         "location": "",
         "phone": "",
         "website": "",
     }
 
-    # First result information
-    if "organic" in data and len(data["organic"]) > 0:
-        result = data["organic"][0]
+    try:
+        res = requests.post(SERPER_URL, json=payload, headers=headers)
+        data = res.json()
 
-        info["website"] = result.get("link", "")
+        # 1️⃣ Knowledge Graph (priority)
+        kg = data.get("knowledgeGraph", {})
+        info["website"] = kg.get("website", "")
+        info["location"] = kg.get("address", "")
+        info["phone"] = kg.get("phone", "")
+        info["founded"] = kg.get("foundingDate", "")
 
-        snippet = result.get("snippet", "")
+        # 2️⃣ Fallback: organic search snippets
+        if "organic" in data:
+            for result in data["organic"]:
+                snippet = result.get("snippet", "")
 
-        # Very simple extraction
-        if "founded" in snippet.lower():
-            info["founded"] = snippet
+                if not info["founded"]:
+                    # Extract year from snippet
+                    import re
 
-        if "phone" in snippet.lower() or "tel" in snippet.lower():
-            info["phone"] = snippet
+                    match = re.search(
+                        r"(founded|established)\s+in\s+(\d{4})", snippet.lower()
+                    )
+                    if match:
+                        info["founded"] = match.group(2)
 
-        if "address" in snippet.lower() or "located" in snippet.lower():
-            info["location"] = snippet
+                if not info["phone"]:
+                    phone_match = re.search(r"(\+?\d[\d \-\(\)]{7,}\d)", snippet)
+                    if phone_match:
+                        info["phone"] = phone_match.group(1)
+
+                if not info["location"]:
+                    loc_match = re.search(r"in\s+([A-Z][a-zA-Z ,\-]+)", snippet)
+                    if loc_match:
+                        info["location"] = loc_match.group(1)
+
+                # stop early if all fields found
+                if info["founded"] and info["phone"] and info["location"]:
+                    break
+
+        # 3️⃣ Fallback website
+        if not info["website"] and "organic" in data and len(data["organic"]) > 0:
+            info["website"] = data["organic"][0].get("link", "")
+
+    except Exception as e:
+        print(f"Error searching {company}: {e}")
+        # return at least company name
+        return {
+            "company": company,
+            "founded": "",
+            "location": "",
+            "phone": "",
+            "website": "",
+        }
 
     return info
 
@@ -85,8 +123,8 @@ def upload_csv():
 
     for c in companies:
         data = search_company(c)
-        write_to_sheet(data)
-        output.append(data)
+        write_to_sheet(data)  # save to sheet
+        output.append(data)  # return to frontend
 
     return jsonify({"status": "success", "data": output})
 
