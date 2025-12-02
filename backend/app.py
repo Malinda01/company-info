@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 import requests
-import os
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
@@ -81,7 +80,7 @@ def search_company(company):
                 if info["founded"] and info["phone"] and info["location"]:
                     break
 
-        # 3️⃣ Fallback website
+        # Fallback
         if not info["website"] and "organic" in data and len(data["organic"]) > 0:
             info["website"] = data["organic"][0].get("link", "")
 
