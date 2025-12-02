@@ -6,12 +6,11 @@ import os
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
+# Flas setup for backend API
 app = Flask(__name__)
 CORS(app)
 
-# ================================
-# GOOGLE SHEETS CONFIG
-# ================================
+# Google sheets
 SHEET_ID = "1_gL95CGnA_-TSOz-PkQ2_Rv1BqsNSM2UoJlQN1sTY9o"
 SERVICE_ACCOUNT_FILE = "credentials.json"
 
@@ -21,15 +20,14 @@ creds = Credentials.from_service_account_file(
 service = build("sheets", "v4", credentials=creds)
 sheet = service.spreadsheets()
 
-# ================================
-# SERPER CONFIG
-# ================================
+
+# SERPER config
 SERPER_API_KEY = "2212d5a6551ac32648c69738efe8f5b368266c8b"
 SERPER_URL = "https://google.serper.dev/search"
 
 
+# Function to search the company details
 def search_company(company):
-    """Search company info using Serper with fallback for missing data"""
     payload = {"q": company + " company profile", "num": 10}
     headers = {"X-API-KEY": SERPER_API_KEY}
 
@@ -45,7 +43,7 @@ def search_company(company):
         res = requests.post(SERPER_URL, json=payload, headers=headers)
         data = res.json()
 
-        # 1️⃣ Knowledge Graph (priority)
+        # Knowledge Graph (priority)
         kg = data.get("knowledgeGraph", {})
         info["website"] = kg.get("website", "")
         info["location"] = kg.get("address", "")
@@ -57,8 +55,8 @@ def search_company(company):
             for result in data["organic"]:
                 snippet = result.get("snippet", "")
 
+                # founded year from regex
                 if not info["founded"]:
-                    # Extract year from snippet
                     import re
 
                     match = re.search(
@@ -67,11 +65,13 @@ def search_company(company):
                     if match:
                         info["founded"] = match.group(2)
 
+                # phone from regex
                 if not info["phone"]:
                     phone_match = re.search(r"(\+?\d[\d \-\(\)]{7,}\d)", snippet)
                     if phone_match:
                         info["phone"] = phone_match.group(1)
 
+                # location
                 if not info["location"]:
                     loc_match = re.search(r"in\s+([A-Z][a-zA-Z ,\-]+)", snippet)
                     if loc_match:
